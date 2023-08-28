@@ -9,6 +9,58 @@ Restaurant.createRestaurant = async(newRestaurant)=>{
         console.log("Cannot Create New Restaurent error:", error);
         throw error
     }
-}
+};
+
+Restaurant.getAll = async () => {
+    try {
+        const restaurants = await Restaurant.findAll();
+        return restaurants.map(restaurant => restaurant.toJSON());
+    } catch (error) {
+        console.error("error", error);
+        throw error;
+    }
+};
+
+Restaurant.getById = async (restaurantId) => {
+    try {
+        const restaurants = await Restaurant.findByPk(restaurantId);
+        if (restaurant) {
+            return restaurant.toJSON();
+        } else {
+            throw {kind: "not_found"};
+        }
+    } catch (error) {
+        console.error("error:", error);
+        throw error;
+    }
+};
+
+Restaurant.updateById = async (id, restaurantData) => {
+    try {
+        const [rowUpdated] = await Restaurant.update(restaurantData, {
+            where: { id },
+        });
+        if (rowUpdated === 0){
+            throw {kind: "not_found" };
+        }
+        return {id:id, ...restaurantData};
+    }catch (error) {
+        console.log("error:", error);
+        throw error;
+    }
+};
+
+Restaurant.removeById = async (id) =>{
+    try {
+        const rowDeleted = await Restaurant.destroy({where: { id } });
+        if(rowDeleted === 0){
+            throw { kind: "not_found" };
+        }
+        return true
+    } catch (error){
+        console.log("error:", error);
+        throw error;
+    }
+};
 
 module.exports = Restaurant
