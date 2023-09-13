@@ -31,7 +31,9 @@ CREATE TABLE `restaurant` (
   `id` int(11) NOT NULL,
   `name` varchar(300) NOT NULL,
   `type` varchar(300) NOT NULL,
-  `imge` varchar(300) NOT NULL
+  `imge` varchar(300) NOT NULL,
+  `createdAt` date DEFAULT NULL,
+  `updatedAt` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --

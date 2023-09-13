@@ -4,7 +4,7 @@ const estaurant = require("../Model/restaurant.model");
 const Restaurant = require("../Model/restaurant.model");
 
 //Insert restaurant to database
-//http://localhost:5000/restaurants
+//http://localhost:5000/restaurant
 router.post("/restaurant", (req, res) => {
     //Create Restautant instance
     const newRestaurant = new Restaurant({
@@ -26,7 +26,7 @@ router.post("/restaurant", (req, res) => {
     })
 })
 //Get all Restaurant
-router.get("/restaurants", (req, res) => {
+router.get("/restaurant", (req, res) => {
     Restaurant.getAll ((err, data) => {
         if (err) {
             res.status(500).send({
@@ -42,7 +42,7 @@ router.get("/restaurants", (req, res) => {
 })
 
 //Get by ID 
-router.get("/restaurants/:id", (req, res) => {
+router.get("/restaurant/:id", (req, res) => {
     const restaurantId = req.params.id;
 
     Restaurant.getById(restaurantId, (err, data) => {
@@ -62,7 +62,7 @@ router.get("/restaurants/:id", (req, res) => {
 
 
 //Update
-router.put("/restaurants/:id", (req, res) => {
+router.put("/restaurant/:id", (req, res) => {
     const restaurantId = req.params.id;
     const updatedData = req.body; // Assuming the updated data is provided in the request body
 
@@ -85,7 +85,7 @@ router.put("/restaurants/:id", (req, res) => {
 
 
 //Delete
-router.delete("/restaurants/:id", (req, res) => {
+router.delete("/restaurant/:id", (req, res) => {
     const restaurantId = req.params.id;
 
     Restaurant.deleteById(restaurantId, (err, data) => {

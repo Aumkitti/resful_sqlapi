@@ -4,7 +4,7 @@ const Restaurant = require('../controllers/restaurant.controller')
 
 
 
-router.post('/restaurants',async(req,res)=>{
+router.post('/restaurant',async(req,res)=>{
     try {
         const newRestaurant = req.body
         const createRestaurant = await Restaurant.createRestaurant(newRestaurant)
@@ -19,11 +19,11 @@ router.get("/restaurant", async(req, res)=>{
         const restaurant = await Restaurant.getAll();
         res.status(200).json(restaurant);
     } catch (error) {
-        res.status(500).json({error:"Failed to get all restaurants"});
+        res.status(500).json({error:"Failed to get all restaurant"});
     }
 });
 
-router.get("/restaurants/:id", async(req, res)=> {
+router.get("/restaurant/:id", async(req, res)=> {
     try {
         const restaurantId = req.params.id;
         const restaurant = await Restaurant.getById(restaurantId);
@@ -51,7 +51,7 @@ router.put("/restaurant/:id", async (req, res)=>{
     }
 });
 
-router.delete("/restaurants/:id", async (req,res)=>{
+router.delete("/restaurant/:id", async (req,res)=>{
     try {
         const restaurantId = req.params.id;
         const isDeleted = await Restaurant.removeById(restaurantId);

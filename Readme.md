@@ -73,11 +73,11 @@ The API provides endpoints to perform CRUD operations on restaurant items.
 
 ### Endpoints
 
-- **GET** `/restaurants`: Get a list of all restaurant items.
-- **GET** `/restaurants/:id`: Get details of a specific restaurant item by ID.
-- **POST** `/restaurants`: Create a new restaurant item.
-- **PUT** `/restaurants/:id`: Update details of a specific restaurant item by ID.
-- **DELETE** `/restaurants/:id`: Delete a specific restaurant item by ID.
+- **GET** `/restaurant`: Get a list of all restaurant items.
+- **GET** `/restaurant/:id`: Get details of a specific restaurant item by ID.
+- **POST** `/restaurant`: Create a new restaurant item.
+- **PUT** `/restaurant/:id`: Update details of a specific restaurant item by ID.
+- **DELETE** `/restaurant/:id`: Delete a specific restaurant item by ID.
 
 ## Frontend
 

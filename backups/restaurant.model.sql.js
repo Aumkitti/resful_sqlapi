@@ -10,8 +10,8 @@ const Restaurant = function (restaurant) {
 
 //Methods
 Restaurant.create = (newRestaurant, result) => {
-    //INSERT INTO restaurants SET name,type,imageurl VALUES("KFC","FASTFOOD","url")
-    sql.query("INSERT INTO restaurants SET ?", newRestaurant, (err, res) => {
+    //INSERT INTO restaurant SET name,type,imageurl VALUES("KFC","FASTFOOD","url")
+    sql.query("INSERT INTO restaurant SET ?", newRestaurant, (err, res) => {
         //มี error เกิดขึ้น
         if (err) {
             console.log("error", err);
@@ -29,7 +29,7 @@ Restaurant.create = (newRestaurant, result) => {
 //Get all restaurant
 Restaurant.getAll = (result) => {
     //SELECT * FROM restautants
-    sql.query("SELECT * FROM restaurants", (err, res) => {
+    sql.query("SELECT * FROM restaurant", (err, res) => {
         if (err) {
             console.log("error", err);
             result(err, null);
@@ -42,8 +42,8 @@ Restaurant.getAll = (result) => {
 };
 //Get by ID
 Restaurant.getById = (restaurantId, result) => {
-    // SELECT * FROM restaurants WHERE id = restaurantId
-    sql.query("SELECT * FROM restaurants WHERE id = ?", [restaurantId], (err, res) => {
+    // SELECT * FROM restaurant WHERE id = restaurantId
+    sql.query("SELECT * FROM restaurant WHERE id = ?", [restaurantId], (err, res) => {
         if (err) {
             console.log("error", err);
             result(err, null);
@@ -66,8 +66,8 @@ Restaurant.getById = (restaurantId, result) => {
 
 //Update
 Restaurant.updateById = (restaurantId, updatedData, result) => {
-    // UPDATE restaurants SET ... WHERE id = restaurantId
-    sql.query("UPDATE restaurants SET ? WHERE id = ?", [updatedData, restaurantId], (err, res) => {
+    // UPDATE restaurant SET ... WHERE id = restaurantId
+    sql.query("UPDATE restaurant SET ? WHERE id = ?", [updatedData, restaurantId], (err, res) => {
         if (err) {
             console.log("error", err);
             result(err, null);
@@ -90,8 +90,8 @@ Restaurant.updateById = (restaurantId, updatedData, result) => {
 
 //Delete
 Restaurant.deleteById = (restaurantId, result) => {
-    // DELETE FROM restaurants WHERE id = restaurantId
-    sql.query("DELETE FROM restaurants WHERE id = ?", [restaurantId], (err, res) => {
+    // DELETE FROM restaurant WHERE id = restaurantId
+    sql.query("DELETE FROM restaurant WHERE id = ?", [restaurantId], (err, res) => {
         if (err) {
             console.log("error", err);
             result(err, null);

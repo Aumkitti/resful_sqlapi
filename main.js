@@ -17,5 +17,5 @@ app.listen(PORT, ()=>{
     console.log("Server is running on http://localhost:"+ PORT);
 })
 
-const restaurantRouter = require('./routes/restaurant')
+const restaurantRouter = require('./routes/restaurant.router')
 app.use(restaurantRouter)

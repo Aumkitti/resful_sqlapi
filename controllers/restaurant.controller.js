@@ -13,8 +13,8 @@ Restaurant.createRestaurant = async(newRestaurant)=>{
 
 Restaurant.getAll = async () => {
     try {
-        const restaurants = await Restaurant.findAll();
-        return restaurants.map(restaurant => restaurant.toJSON());
+        const restaurant = await Restaurant.findAll();
+        return restaurant.map(restaurant => restaurant.toJSON());
     } catch (error) {
         console.error("error", error);
         throw error;
@@ -23,7 +23,7 @@ Restaurant.getAll = async () => {
 
 Restaurant.getById = async (restaurantId) => {
     try {
-        const restaurants = await Restaurant.findByPk(restaurantId);
+        const restaurant = await Restaurant.findByPk(restaurantId);
         if (restaurant) {
             return restaurant.toJSON();
         } else {

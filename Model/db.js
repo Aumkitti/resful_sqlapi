@@ -2,8 +2,14 @@ const {Sequelize} = require("sequelize");
 const dbConfig = require("../config/dbconfig");
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD,{
     host:dbConfig.HOST,
-    dialect:"mysql"
-})
+    dialect:"mysql",
+    dialectOptions:{
+        ssl: {
+            rejectUthorized: false,
+        },
+    },
+    
+});
 
 async function testConection(){
     try {

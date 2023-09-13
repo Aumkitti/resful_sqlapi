@@ -4,7 +4,7 @@ const Restaurant = require('../controllers/restaurant.controller')
 
 
 
-router.post('/restaurants',async(req,res)=>{
+router.post('/restaurant',async(req,res)=>{
     try {
         const newRestaurant = req.body
         const createRestaurant = await Restaurant.createRestaurant(newRestaurant)
