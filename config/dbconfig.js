@@ -1,6 +1,15 @@
-module.exports = {
-    HOST:"aws.connect.psdb.cloud",
-    USER:"f3n1opt2e8bcu38npvkn",
-    PASSWORD:"pscale_pw_fzuS5QlMLr0FgMPtiwzhB2Xi11nY3eamdqdovTkZ7Bv",
-    DB:"databease"
+require(`dotenv`).config();
+
+module.exports ={
+    HOST:process.env.HOST,
+    USER: process.env.USER,
+    PASSWORD: process.env.PASSWORD,
+    DB: process.env.DB,
+    dialect:"postgres",
+    pool:{
+        max:5,
+        min:0,
+        acquire:30000,
+        idle:10000
+    }
 }
