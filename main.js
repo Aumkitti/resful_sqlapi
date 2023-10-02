@@ -1,10 +1,10 @@
 const express = require("express");
 const cors = require("cors");
-const sql = require("./models/db");
+const sql = require("./Model/db");
 const PORT =5000;
 const restaurantRouter = require("./routes/restaurant.router")
 const req = require("express/lib/request")
-const db = require("./models/index")
+const db = require("./Model/index")
 const role = db.role
 
 
@@ -44,7 +44,8 @@ app.use(express.urlencoded({extended:false}));
 app.get("/", (req,res)=>{
     res.send("<h1>Restaurant</h1>");
 })
-app.use("/",restaurantRouter)
+app.use("/",restaurantRouter);
+require("./routes/auth.router")(app);
 
 app.listen(PORT, ()=>{
     console.log("Server is running on http://localhost:"+ PORT)
