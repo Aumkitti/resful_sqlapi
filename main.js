@@ -6,16 +6,19 @@ const restaurantRouter = require("./routes/restaurant.router")
 const req = require("express/lib/request")
 const db = require("./Model/index")
 const role = db.role
-
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
 
 
 
 ///dev mode
-db.sequelize.sync({force: false}).then(() =>{
-    console.log("Drop and resync DB");
-    initial();
-})
+// db.sequelize.sync({force: true}).then(() =>{
+//     console.log("Drop and resync DB");
+//      initial();
+// })
+
+
 
 function initial() {
     role.create({
@@ -40,13 +43,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
+// swaggerDocument 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get("/", (req,res)=>{
     res.send("<h1>Restaurant</h1>");
 })
-app.use("/",restaurantRouter);
+app.use("/",restaurantRouter)
 require("./routes/auth.router")(app);
 
 app.listen(PORT, ()=>{
-    console.log("Server is running on http://localhost:"+ PORT)
-});
+    console.log("Server is running on http://localhost:"+PORT)
+})
