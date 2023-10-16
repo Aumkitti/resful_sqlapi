@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Restaurant = require('../controllers/restaurant.controller');
-const {authJwt} = require("../middleware/index");
+const {authJwt} = require('../middleware/index')
 
 
 
@@ -28,16 +28,17 @@ router.get("/restaurant/:id", [authJwt.verifyToken], async(req, res)=> {
     try {
         const restaurantId = req.params.id;
         const restaurant = await Restaurant.getById(restaurantId);
-        res.json(restaurant)
+        res.json(restaurant);
     } catch (error) {
         if(error.kind === "not_found"){
             res.status(400).json({ error: "Restaurant not found"});
-        } 
+        }else{
         res.status(500).json({error:"Failed to got a restaurant by Id"});
+        }
     }
 });
 
-router.put("/restaurant/:id", async (req, res)=>{
+router.put("/restaurant/:id", [authJwt.verifyToken, authJwt.isAdmin], async (req, res)=>{
     try {
         const restaurantId = req.params.id;
         const restaurantData = req.body;
