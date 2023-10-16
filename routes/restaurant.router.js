@@ -1,6 +1,7 @@
-const express = require('express')
-const router = express.Router()
-const Restaurant = require('../controllers/restaurant.controller')
+const express = require('express');
+const router = express.Router();
+const Restaurant = require('../controllers/restaurant.controller');
+const {authJwt} = require("../middleware/index");
 
 
 
@@ -23,7 +24,7 @@ router.get("/restaurant", async(req, res)=>{
     }
 });
 
-router.get("/restaurant/:id", async(req, res)=> {
+router.get("/restaurant/:id", [authJwt.verifyToken], async(req, res)=> {
     try {
         const restaurantId = req.params.id;
         const restaurant = await Restaurant.getById(restaurantId);
