@@ -2,6 +2,15 @@ const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config");
 const db = require("../Model");
 const User = db.user;
+
+const {tokenExpiredError} = jwt
+
+const catchError = (err, res) =>{
+    if(err instanceof tokenExpiredError) {
+        return res.status(401).send({message:"Unauthorized! Access Token was expired"})
+    }
+    return res.status(401).send({message:"Unauthorized!"});
+}
     
 verifyToken = (req,res,next) =>{
     let token = req.headers ['x-access-token'];
@@ -18,6 +27,9 @@ verifyToken = (req,res,next) =>{
         next();
     });
 };
+
+
+
 isAdmin = (req,res,next) =>{
     //SELECT * FROM user WHERE id = req.userId
     User.findByPk(req.userId).then( user =>{

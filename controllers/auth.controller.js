@@ -1,7 +1,9 @@
 const db = require("../Model");
 const config = require("../config/auth.config");
-const User = db.user;
-const Role = db.role;
+//const User = db.user;
+//const Role = db.role;
+//const RefreshToken = db.refreshToken;
+const {user:User, role:Role, refreshToken:RefreshToken} = db;
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const op = db.Sequelize.Op;
@@ -45,7 +47,7 @@ exports.signin = (req, res) => {
         where:{
         username: req.body.username
         }
-    }).then(user => {
+    }).then(async(user) => {
         if(!user){
             return res.status(404).send({massage:"User not found"})
         }
@@ -61,8 +63,10 @@ exports.signin = (req, res) => {
             {
                 algorithm:"HS256",
                 allowInsecureKeySizes:true,
-                expiresIn: 86400, //24hours = 60*60*24
+                expiresIn: config.jwtExpiration, //24hours = 60*60*24
             });
+            const refreshToken = await RefreshToken.createToken();
+
             let authorities = [];
             user.getRoles().then(roles =>{
                 for(let i=0; i< roles.length; i++){
@@ -73,10 +77,54 @@ exports.signin = (req, res) => {
                     username:user.username,
                     email:user.email,
                     roles:authorities,
-                    accessToken: token
-                })
+                    accessToken: token,
+                    refreshToken: refreshToken,
+                });
             });
-    }).catch(err =>{
+        })
+    .catch(err =>{
         res.status(500).send({massage: err.massage})
     });
+};
+
+exports.refreshToken = async (req, res)=>{
+    const {refreshToken:requestToken} = req.body;
+    //check if refresh token is provided
+    if(requestToken == null) {
+        return res.status(403).json({massage:"Refresh Token is required!"});
+    }
+    try {
+        let refreshToken = await RefreshToken.findOne({
+            where:{
+                token:requestToken,
+            },
+        });
+        // If refresh token existed in database
+        if(!refreshToken){
+            res.status(403).json({massage:"Refresh Token is not in database!"});
+            return
+        }
+        //If refresh token is expired
+        if(RefreshToken.verifyExpiration(refreshToken)){
+            RefreshToken.destroy({where:{ id: refreshToken.id }});
+            res.status(403).json({massage:"Refresh Token was expire. Please make a new signin request",});
+            return;
+        }
+        const user = await refreshToken.getUser();
+        let newAccessToken = jwt.sign({id:user.id},
+            config.secret,
+            {
+                algorithm:"HS256",
+                allowInsecureKeySizes:true,
+                expiresIn: config.jwtExpiration, //24hours = 60*60*24
+            });
+
+            return res.status(200).json({
+                accessToken:newAccessToken,
+                refreshToken:refreshToken.token
+            })
+
+    } catch (error) {
+        return res.status(500).send({message:err});
+    }
 };
